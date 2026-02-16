@@ -1,13 +1,23 @@
 import {App, PluginSettingTab, Setting} from "obsidian";
 import AutoPinPlugin from "./main";
 
+export type AutoPinMode = "disabled" | "autopin" | "monkey-patch";
+
 export interface AutoPinSettings {
-	enabled: boolean;
+	mode: AutoPinMode;
+	deduplicateTabs: boolean;
 }
 
 export const DEFAULT_SETTINGS: AutoPinSettings = {
-	enabled: true
+	mode: "autopin",
+	deduplicateTabs: true,
 }
+
+const MODE_OPTIONS: Record<AutoPinMode, string> = {
+	"disabled": "Disabled — plugin does nothing",
+	"autopin": "Auto Pin — uses official APIs, tabs show a pin icon",
+	"monkey-patch": "Monkey Patch — overrides internal behavior, no pin icons, may break on Obsidian updates",
+};
 
 export class AutoPinSettingTab extends PluginSettingTab {
 	plugin: AutoPinPlugin;
@@ -23,13 +33,31 @@ export class AutoPinSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName('Auto-pin tabs')
-			.setDesc('Automatically pin tabs when files are opened, so new files always open in a new tab.')
-			.addToggle(toggle => toggle
-				.setValue(this.plugin.settings.enabled)
-				.onChange(async (value) => {
-					this.plugin.settings.enabled = value;
-					await this.plugin.saveSettings();
-				}));
+			.setName('New tab behavior')
+			.setDesc('Choose how the plugin forces new files to open in a new tab.')
+			.addDropdown(dropdown => {
+				for (const [value, label] of Object.entries(MODE_OPTIONS)) {
+					dropdown.addOption(value, label);
+				}
+				dropdown
+					.setValue(this.plugin.settings.mode)
+					.onChange(async (value) => {
+						this.plugin.settings.mode = value as AutoPinMode;
+						await this.plugin.saveSettings();
+						this.plugin.applyMode();
+					});
+			});
+
+		new Setting(containerEl)
+			.setName('Deduplicate tabs')
+			.setDesc('When opening a file that is already open in another tab, focus the existing tab instead of opening a duplicate.')
+			.addToggle(toggle => {
+				toggle
+					.setValue(this.plugin.settings.deduplicateTabs)
+					.onChange(async (value) => {
+						this.plugin.settings.deduplicateTabs = value;
+						await this.plugin.saveSettings();
+					});
+			});
 	}
 }
