@@ -1,0 +1,10 @@
+{
+	"id": "autopin",
+	"name": "Auto Pin",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "Automatically pins tabs when files are opened, so new files always open in a new tab.",
+	"author": "Obsidian",
+	"authorUrl": "https://obsidian.md",
+	"isDesktopOnly": false
+}
