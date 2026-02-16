@@ -3,7 +3,15 @@
     "allow": [
       "WebSearch",
       "Bash(npm install:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git -C /Volumes/all/hobby/obsidian-autopin rev-parse HEAD)",
+      "Bash(git -C /Volumes/all/hobby/obsidian-autopin add src/main.ts)",
+      "Bash(git -C /Volumes/all/hobby/obsidian-autopin commit --amend --no-edit)",
+      "Bash(echo:*)",
+      "Bash(git -C /Volumes/all/hobby/obsidian-autopin log --oneline)",
+      "Bash(git -C /Volumes/all/hobby/obsidian-autopin diff HEAD -- src/)"
     ]
   }
 }
