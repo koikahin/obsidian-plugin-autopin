@@ -1,5 +1,5 @@
 > [!WARNING] 
-> This is a scrappy vibe-coded project to handle a pain-point. Review before use and use it at your own risk. Make sure to have regualar backups of your vault as this plugin may crash and burn your vault at any time without notice.
+> This is a scrappy vibe-coded project to handle a pain-point. Review before use and use it at your own risk. Make sure to have regular backups of your vault as this plugin may crash and burn your vault at any time without notice.
 
 # Auto Pin
 
